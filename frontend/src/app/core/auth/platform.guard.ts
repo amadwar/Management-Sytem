@@ -1,0 +1,1 @@
+import { inject } from '@angular/core';import { CanActivateFn, Router } from '@angular/router';import { PlatformAuthService } from './platform-auth.service';export const platformGuard:CanActivateFn=()=>inject(PlatformAuthService).authenticated()?true:inject(Router).createUrlTree(['/platform/login']);

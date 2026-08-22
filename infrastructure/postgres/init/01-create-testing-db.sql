@@ -1,0 +1,1 @@
+CREATE DATABASE business_saas_testing;
