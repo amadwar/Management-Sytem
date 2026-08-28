@@ -1,1 +1,23 @@
-import { HttpInterceptorFn } from '@angular/common/http';import { inject } from '@angular/core';import { AuthService } from '../auth/auth.service';import { PlatformAuthService } from '../auth/platform-auth.service';export const authInterceptor:HttpInterceptorFn=(req,next)=>{const isPlatform=req.url.includes('/platform/');const token=isPlatform?inject(PlatformAuthService).token():inject(AuthService).token();return next(token?req.clone({setHeaders:{Authorization:`Bearer ${token}`,'Accept-Language':document.documentElement.lang||'en'}}):req);};
+import { HttpInterceptorFn } from '@angular/common/http';
+
+const TENANT_TOKEN_KEY = 'mdr_token';
+const PLATFORM_TOKEN_KEY = 'mdr_platform_token';
+
+export const authInterceptor: HttpInterceptorFn = (request, next) => {
+  // Do not inject AuthService here: both auth services depend on HttpClient,
+  // which would create a circular dependency while HttpClient builds its interceptor chain.
+  const isPlatformRequest = request.url.includes('/platform/');
+  const token = localStorage.getItem(
+    isPlatformRequest ? PLATFORM_TOKEN_KEY : TENANT_TOKEN_KEY,
+  );
+
+  const headers: Record<string, string> = {
+    'Accept-Language': document.documentElement.lang || 'en',
+  };
+
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+
+  return next(request.clone({ setHeaders: headers }));
+};

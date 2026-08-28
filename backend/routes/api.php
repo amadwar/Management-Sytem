@@ -15,6 +15,12 @@ use App\Http\Controllers\Api\V1\Platform\PlanController as PlatformPlanControlle
 use App\Http\Controllers\Api\V1\PlatformAuthController;
 use App\Http\Controllers\Api\V1\RoleController;
 use App\Http\Controllers\Api\V1\UserController;
+use App\Http\Controllers\Api\V1\Crm\ActivityController as CrmActivityController;
+use App\Http\Controllers\Api\V1\Crm\ContactController as CrmContactController;
+use App\Http\Controllers\Api\V1\Crm\CustomerController as CrmCustomerController;
+use App\Http\Controllers\Api\V1\Crm\LeadController as CrmLeadController;
+use App\Http\Controllers\Api\V1\Crm\NoteController as CrmNoteController;
+use App\Http\Controllers\Api\V1\Crm\TagController as CrmTagController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function (): void {
@@ -31,7 +37,7 @@ Route::prefix('v1')->group(function (): void {
     Route::prefix('platform')->group(function (): void {
         Route::post('auth/login', [PlatformAuthController::class, 'login'])->middleware('throttle:10,1');
 
-        Route::middleware(['auth:sanctum'])->group(function (): void {
+        Route::middleware(['auth:sanctum', 'platform.admin'])->group(function (): void {
             Route::get('auth/me', [PlatformAuthController::class, 'me']);
             Route::post('auth/logout', [PlatformAuthController::class, 'logout']);
             Route::apiResource('tenants', PlatformTenantController::class)->only(['index', 'store', 'show', 'update']);
@@ -56,5 +62,20 @@ Route::prefix('v1')->group(function (): void {
         Route::get('modules', [ModuleController::class, 'index']);
         Route::put('modules/{module}/activation', [ModuleController::class, 'updateActivation'])
             ->middleware('permission:modules.manage');
+
+        Route::prefix('crm')->middleware('module:crm')->group(function (): void {
+            Route::apiResource('customers', CrmCustomerController::class)->middleware('permission:crm.customers.view');
+            Route::get('tags', [CrmTagController::class, 'index'])->middleware('permission:crm.customers.view');
+            Route::post('tags', [CrmTagController::class, 'store'])->middleware('permission:crm.tags.manage');
+            Route::post('customers/{customer}/contacts', [CrmContactController::class, 'store'])->middleware('permission:crm.customers.update');
+            Route::delete('customers/{customer}/contacts/{contact}', [CrmContactController::class, 'destroy'])->middleware('permission:crm.customers.update');
+            Route::get('customers/{customer}/notes', [CrmNoteController::class, 'index'])->middleware('permission:crm.customers.view');
+            Route::post('customers/{customer}/notes', [CrmNoteController::class, 'store'])->middleware('permission:crm.notes.create');
+            Route::get('customers/{customer}/activities', [CrmActivityController::class, 'index'])->middleware('permission:crm.customers.view');
+            Route::post('customers/{customer}/activities', [CrmActivityController::class, 'store'])->middleware('permission:crm.activities.create');
+            Route::apiResource('leads', CrmLeadController::class)->only(['index','store','update'])->middleware('permission:crm.leads.view');
+            Route::post('leads/{lead}/convert', [CrmLeadController::class, 'convert'])->middleware('permission:crm.leads.convert');
+        });
+
     });
 });

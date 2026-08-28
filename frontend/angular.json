@@ -15,28 +15,15 @@
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+              { "glob": "**/*", "input": "public" }
             ],
-            "styles": [
-              "src/styles.scss"
-            ]
+            "styles": ["src/styles.scss"]
           },
           "configurations": {
             "production": {
               "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
-                }
+                { "type": "initial", "maximumWarning": "500kB", "maximumError": "1MB" },
+                { "type": "anyComponentStyle", "maximumWarning": "4kB", "maximumError": "8kB" }
               ],
               "outputHashing": "all"
             },
@@ -51,12 +38,8 @@
         "serve": {
           "builder": "@angular/build:dev-server",
           "configurations": {
-            "development": {
-              "buildTarget": "web:build:development"
-            },
-            "production": {
-              "buildTarget": "web:build:production"
-            }
+            "development": { "buildTarget": "web:build:development" },
+            "production": { "buildTarget": "web:build:production" }
           },
           "defaultConfiguration": "development"
         }
@@ -64,6 +47,6 @@
     }
   },
   "cli": {
-    "analytics": "1b6b42ff-c1dc-46a5-891d-f730b0cb0f2c"
+    "analytics": "5ad41b22-71b3-4edd-a1f4-7c34be3c3fbb"
   }
 }

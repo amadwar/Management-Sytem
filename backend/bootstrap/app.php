@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use App\Http\Middleware\EnsurePermission;
 use App\Http\Middleware\EnsureTenantUser;
+use App\Http\Middleware\EnsureModuleEnabled;
+use App\Http\Middleware\EnsurePlatformAdmin;
 use App\Http\Middleware\ResolveTenant;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -23,6 +25,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'tenant.user' => EnsureTenantUser::class,
             'tenant.resolve' => ResolveTenant::class,
             'permission' => EnsurePermission::class,
+            'module' => EnsureModuleEnabled::class,
+            'platform.admin' => EnsurePlatformAdmin::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
