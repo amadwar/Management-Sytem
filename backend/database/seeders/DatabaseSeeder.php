@@ -8,8 +8,8 @@ use Illuminate\Database\Seeder;
 
 final class DatabaseSeeder extends Seeder
 {
-    public function run():void
+    public function run(): void
     {
-        $this->call([ReferenceDataSeeder::class,AuthorizationSeeder::class,ModuleSeeder::class,BillingFoundationSeeder::class,PlatformAdminSeeder::class]);
+        $this->call([ReferenceDataSeeder::class, AuthorizationSeeder::class, ModuleSeeder::class, BillingFoundationSeeder::class, PlatformAdminSeeder::class]);
     }
 }

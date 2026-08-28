@@ -2,25 +2,25 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\AuditController;
+use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\BranchController;
-use App\Http\Controllers\Api\V1\ModuleController;
-use App\Http\Controllers\Api\V1\PermissionController;
-use App\Http\Controllers\Api\V1\ReferenceDataController;
-use App\Http\Controllers\Api\V1\SettingsController;
-use App\Http\Controllers\Api\V1\OrganizationController;
-use App\Http\Controllers\Api\V1\Platform\TenantController as PlatformTenantController;
-use App\Http\Controllers\Api\V1\Platform\PlanController as PlatformPlanController;
-use App\Http\Controllers\Api\V1\PlatformAuthController;
-use App\Http\Controllers\Api\V1\RoleController;
-use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\Api\V1\Crm\ActivityController as CrmActivityController;
 use App\Http\Controllers\Api\V1\Crm\ContactController as CrmContactController;
 use App\Http\Controllers\Api\V1\Crm\CustomerController as CrmCustomerController;
 use App\Http\Controllers\Api\V1\Crm\LeadController as CrmLeadController;
 use App\Http\Controllers\Api\V1\Crm\NoteController as CrmNoteController;
 use App\Http\Controllers\Api\V1\Crm\TagController as CrmTagController;
+use App\Http\Controllers\Api\V1\ModuleController;
+use App\Http\Controllers\Api\V1\OrganizationController;
+use App\Http\Controllers\Api\V1\PermissionController;
+use App\Http\Controllers\Api\V1\Platform\PlanController as PlatformPlanController;
+use App\Http\Controllers\Api\V1\Platform\TenantController as PlatformTenantController;
+use App\Http\Controllers\Api\V1\PlatformAuthController;
+use App\Http\Controllers\Api\V1\ReferenceDataController;
+use App\Http\Controllers\Api\V1\RoleController;
+use App\Http\Controllers\Api\V1\SettingsController;
+use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function (): void {
@@ -41,7 +41,7 @@ Route::prefix('v1')->group(function (): void {
             Route::get('auth/me', [PlatformAuthController::class, 'me']);
             Route::post('auth/logout', [PlatformAuthController::class, 'logout']);
             Route::apiResource('tenants', PlatformTenantController::class)->only(['index', 'store', 'show', 'update']);
-            Route::apiResource('plans', PlatformPlanController::class)->only(['index','store','update']);
+            Route::apiResource('plans', PlatformPlanController::class)->only(['index', 'store', 'update']);
         });
     });
 
@@ -73,7 +73,7 @@ Route::prefix('v1')->group(function (): void {
             Route::post('customers/{customer}/notes', [CrmNoteController::class, 'store'])->middleware('permission:crm.notes.create');
             Route::get('customers/{customer}/activities', [CrmActivityController::class, 'index'])->middleware('permission:crm.customers.view');
             Route::post('customers/{customer}/activities', [CrmActivityController::class, 'store'])->middleware('permission:crm.activities.create');
-            Route::apiResource('leads', CrmLeadController::class)->only(['index','store','update'])->middleware('permission:crm.leads.view');
+            Route::apiResource('leads', CrmLeadController::class)->only(['index', 'store', 'update'])->middleware('permission:crm.leads.view');
             Route::post('leads/{lead}/convert', [CrmLeadController::class, 'convert'])->middleware('permission:crm.leads.convert');
         });
 

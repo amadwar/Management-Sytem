@@ -17,7 +17,7 @@ final class EnsureModuleEnabled
         $module = Module::query()->where('code', $moduleCode)->where('is_active', true)->first();
         abort_if($module === null, 404, 'Module not found.');
 
-        if (!$module->is_core) {
+        if (! $module->is_core) {
             $enabled = TenantModule::query()
                 ->where('module_id', $module->id)
                 ->where('enabled', true)

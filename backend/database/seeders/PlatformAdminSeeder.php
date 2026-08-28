@@ -13,10 +13,10 @@ final class PlatformAdminSeeder extends Seeder
 {
     public function run(): void
     {
-        $email=(string)env('PLATFORM_ADMIN_EMAIL','admin@example.com');
+        $email = (string) env('PLATFORM_ADMIN_EMAIL', 'admin@example.com');
         User::withoutGlobalScopes()->updateOrCreate(
-            ['tenant_id'=>null,'email'=>$email],
-            ['public_id'=>(string)Str::uuid(),'name'=>(string)env('PLATFORM_ADMIN_NAME','Platform Admin'),'password'=>(string)env('PLATFORM_ADMIN_PASSWORD','ChangeMe123!'),'status'=>UserStatus::Active,'is_platform_admin'=>true]
+            ['tenant_id' => null, 'email' => $email],
+            ['public_id' => (string) Str::uuid(), 'name' => (string) env('PLATFORM_ADMIN_NAME', 'Platform Admin'), 'password' => (string) env('PLATFORM_ADMIN_PASSWORD', 'ChangeMe123!'), 'status' => UserStatus::Active, 'is_platform_admin' => true]
         );
     }
 }

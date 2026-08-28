@@ -11,9 +11,22 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 final class Role extends Model
 {
-    use HasFactory, BelongsToTenant;
-    protected $fillable = ['tenant_id','public_id','name','code','is_system'];
-    protected function casts(): array { return ['is_system'=>'boolean']; }
-    public function permissions(): BelongsToMany { return $this->belongsToMany(Permission::class)->withTimestamps(); }
-    public function users(): BelongsToMany { return $this->belongsToMany(User::class)->withTimestamps(); }
+    use BelongsToTenant, HasFactory;
+
+    protected $fillable = ['tenant_id', 'public_id', 'name', 'code', 'is_system'];
+
+    protected function casts(): array
+    {
+        return ['is_system' => 'boolean'];
+    }
+
+    public function permissions(): BelongsToMany
+    {
+        return $this->belongsToMany(Permission::class)->withTimestamps();
+    }
+
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class)->withTimestamps();
+    }
 }

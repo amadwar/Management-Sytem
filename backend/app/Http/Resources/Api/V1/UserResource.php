@@ -11,6 +11,6 @@ final class UserResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        return ['id'=>$this->public_id,'name'=>$this->name,'email'=>$this->email,'phone'=>$this->phone,'status'=>$this->status->value,'roles'=>$this->whenLoaded('roles', fn()=> $this->roles->map(fn($r)=>['id'=>$r->public_id,'name'=>$r->name,'code'=>$r->code]))];
+        return ['id' => $this->public_id, 'name' => $this->name, 'email' => $this->email, 'phone' => $this->phone, 'status' => $this->status->value, 'roles' => $this->whenLoaded('roles', fn () => $this->roles->map(fn ($r) => ['id' => $r->public_id, 'name' => $r->name, 'code' => $r->code]))];
     }
 }

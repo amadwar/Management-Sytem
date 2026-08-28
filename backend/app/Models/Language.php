@@ -8,5 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 
 final class Language extends Model
 {
-    public $timestamps = false; protected $fillable = ['code','name','native_name','direction','is_active']; protected function casts(): array { return ['is_active'=>'boolean']; }
+    public $timestamps = false;
+
+    protected $fillable = ['code', 'name', 'native_name', 'direction', 'is_active'];
+
+    protected function casts(): array
+    {
+        return ['is_active' => 'boolean'];
+    }
 }

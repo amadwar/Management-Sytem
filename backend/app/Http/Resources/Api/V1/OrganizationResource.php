@@ -11,6 +11,6 @@ final class OrganizationResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        return ['id'=>$this->public_id,'legal_name'=>$this->legal_name,'display_name'=>$this->display_name,'email'=>$this->email,'phone'=>$this->phone,'tax_number'=>$this->tax_number,'address'=>$this->address];
+        return ['id' => $this->public_id, 'legal_name' => $this->legal_name, 'display_name' => $this->display_name, 'email' => $this->email, 'phone' => $this->phone, 'tax_number' => $this->tax_number, 'address' => $this->address];
     }
 }

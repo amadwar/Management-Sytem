@@ -6,7 +6,6 @@ namespace App\Application\Audit;
 
 use App\Domain\Tenancy\TenantContext;
 use App\Models\AuditLog;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 
 final class AuditLogger

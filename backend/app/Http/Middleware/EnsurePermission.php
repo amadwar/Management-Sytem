@@ -12,7 +12,7 @@ final class EnsurePermission
 {
     public function handle(Request $request, Closure $next, string $permission): Response
     {
-        if (!$request->user()?->hasPermission($permission)) {
+        if (! $request->user()?->hasPermission($permission)) {
             abort(403, 'Missing required permission.');
         }
 

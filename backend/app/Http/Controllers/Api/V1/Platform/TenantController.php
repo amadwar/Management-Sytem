@@ -20,6 +20,7 @@ final class TenantController extends Controller
     public function index(Request $request): AnonymousResourceCollection
     {
         abort_unless($request->user()?->isPlatformAdmin(), 403);
+
         return TenantResource::collection(Tenant::query()->with('organization')->latest()->paginate(20));
     }
 
@@ -36,23 +37,28 @@ final class TenantController extends Controller
             timezone: $request->string('timezone')->toString() ?: 'UTC',
             locale: $request->string('locale')->toString() ?: 'en',
         ));
-        $audit->record('platform.tenant.created', $request, Tenant::class, $tenant->id, ['public_id'=>$tenant->public_id]);
+        $audit->record('platform.tenant.created', $request, Tenant::class, $tenant->id, ['public_id' => $tenant->public_id]);
+
         return new TenantResource($tenant);
     }
 
     public function show(Request $request, Tenant $tenant): TenantResource
     {
         abort_unless($request->user()?->isPlatformAdmin(), 403);
+
         return new TenantResource($tenant->load('organization'));
     }
 
     public function update(Request $request, Tenant $tenant, AuditLogger $audit): TenantResource
     {
         abort_unless($request->user()?->isPlatformAdmin(), 403);
-        $data = $request->validate(['status'=>['sometimes', 'in:pending,active,suspended'], 'timezone'=>['sometimes','timezone'], 'default_locale'=>['sometimes','in:ar,en,de']]);
-        if (isset($data['status'])) { $data['status'] = TenantStatus::from($data['status']); }
+        $data = $request->validate(['status' => ['sometimes', 'in:pending,active,suspended'], 'timezone' => ['sometimes', 'timezone'], 'default_locale' => ['sometimes', 'in:ar,en,de']]);
+        if (isset($data['status'])) {
+            $data['status'] = TenantStatus::from($data['status']);
+        }
         $tenant->update($data);
-        $audit->record('platform.tenant.updated', $request, Tenant::class, $tenant->id, ['changes'=>array_keys($data)]);
+        $audit->record('platform.tenant.updated', $request, Tenant::class, $tenant->id, ['changes' => array_keys($data)]);
+
         return new TenantResource($tenant->load('organization'));
     }
 }

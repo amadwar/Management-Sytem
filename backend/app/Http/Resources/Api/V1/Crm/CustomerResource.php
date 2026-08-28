@@ -29,8 +29,8 @@ final class CustomerResource extends JsonResource
             'source' => $this->source,
             'assigned_to' => $this->assigned_to,
             'description' => $this->description,
-            'tags' => $this->whenLoaded('tags', fn () => $this->tags->map(fn ($tag) => ['id'=>$tag->id,'public_id'=>$tag->public_id,'name'=>$tag->name,'color'=>$tag->color])->values()),
-            'contacts' => $this->whenLoaded('contacts', fn () => $this->contacts->map(fn ($contact) => ['id'=>$contact->public_id,'name'=>$contact->name,'job_title'=>$contact->job_title,'email'=>$contact->email,'phone'=>$contact->phone,'is_primary'=>$contact->is_primary])->values()),
+            'tags' => $this->whenLoaded('tags', fn () => $this->tags->map(fn ($tag) => ['id' => $tag->id, 'public_id' => $tag->public_id, 'name' => $tag->name, 'color' => $tag->color])->values()),
+            'contacts' => $this->whenLoaded('contacts', fn () => $this->contacts->map(fn ($contact) => ['id' => $contact->public_id, 'name' => $contact->name, 'job_title' => $contact->job_title, 'email' => $contact->email, 'phone' => $contact->phone, 'is_primary' => $contact->is_primary])->values()),
             'created_at' => $this->created_at?->toISOString(),
             'updated_at' => $this->updated_at?->toISOString(),
         ];

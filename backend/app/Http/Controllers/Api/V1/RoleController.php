@@ -29,6 +29,7 @@ final class RoleController extends Controller
         $role = Role::query()->create(['public_id' => (string) Str::uuid(), 'name' => $request->string('name')->toString(), 'code' => $request->string('code')->toString(), 'is_system' => false]);
         $role->permissions()->sync(Permission::query()->whereIn('id', $request->input('permission_ids', []))->pluck('id'));
         $audit->record('role.created', $request, Role::class, $role->id);
+
         return new RoleResource($role->load('permissions'));
     }
 
@@ -46,6 +47,7 @@ final class RoleController extends Controller
         $model->update(['name' => $request->string('name')->toString(), 'code' => $request->string('code')->toString()]);
         $model->permissions()->sync(Permission::query()->whereIn('id', $request->input('permission_ids', []))->pluck('id'));
         $audit->record('role.updated', $request, Role::class, $model->id);
+
         return new RoleResource($model->load('permissions'));
     }
 
@@ -57,6 +59,7 @@ final class RoleController extends Controller
         abort_if($model->users()->exists(), 422, 'Role is assigned to users.');
         $audit->record('role.deleted', $request, Role::class, $model->id);
         $model->delete();
+
         return response()->noContent();
     }
 
@@ -68,7 +71,11 @@ final class RoleController extends Controller
     private function assertUniqueCode(string $code, ?int $ignoreId = null): void
     {
         $query = Role::query()->where('code', $code);
-        if ($ignoreId !== null) $query->whereKeyNot($ignoreId);
-        if ($query->exists()) throw ValidationException::withMessages(['code' => ['Role code is already used in this workspace.']]);
+        if ($ignoreId !== null) {
+            $query->whereKeyNot($ignoreId);
+        }
+        if ($query->exists()) {
+            throw ValidationException::withMessages(['code' => ['Role code is already used in this workspace.']]);
+        }
     }
 }

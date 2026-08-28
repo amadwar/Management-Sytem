@@ -11,11 +11,16 @@ use Illuminate\Support\Str;
 
 final class TagController extends Controller
 {
-    public function index() { return response()->json(['data'=>CrmTag::query()->orderBy('name')->get(['id','public_id','name','color'])]); }
+    public function index()
+    {
+        return response()->json(['data' => CrmTag::query()->orderBy('name')->get(['id', 'public_id', 'name', 'color'])]);
+    }
+
     public function store(TagRequest $request)
     {
-        abort_unless($request->user()->hasPermission('crm.tags.manage'),403);
-        $tag=CrmTag::query()->create(['public_id'=>(string)Str::uuid(),...$request->validated()]);
-        return response()->json(['data'=>$tag],201);
+        abort_unless($request->user()->hasPermission('crm.tags.manage'), 403);
+        $tag = CrmTag::query()->create(['public_id' => (string) Str::uuid(), ...$request->validated()]);
+
+        return response()->json(['data' => $tag], 201);
     }
 }

@@ -19,9 +19,9 @@ final class CrmCustomer extends Model
     protected $table = 'crm_customers';
 
     protected $fillable = [
-        'tenant_id','public_id','type','status','name','company_name','email','phone','secondary_phone',
-        'tax_number','website','country_id','city_id','address','postal_code','source','assigned_to',
-        'custom_fields','description',
+        'tenant_id', 'public_id', 'type', 'status', 'name', 'company_name', 'email', 'phone', 'secondary_phone',
+        'tax_number', 'website', 'country_id', 'city_id', 'address', 'postal_code', 'source', 'assigned_to',
+        'custom_fields', 'description',
     ];
 
     protected function casts(): array
@@ -33,9 +33,28 @@ final class CrmCustomer extends Model
         ];
     }
 
-    public function assignee(): BelongsTo { return $this->belongsTo(User::class, 'assigned_to'); }
-    public function contacts(): HasMany { return $this->hasMany(CrmContact::class, 'customer_id'); }
-    public function notes(): HasMany { return $this->hasMany(CrmNote::class, 'customer_id'); }
-    public function activities(): HasMany { return $this->hasMany(CrmActivity::class, 'customer_id'); }
-    public function tags(): BelongsToMany { return $this->belongsToMany(CrmTag::class, 'crm_customer_tag', 'customer_id', 'tag_id'); }
+    public function assignee(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'assigned_to');
+    }
+
+    public function contacts(): HasMany
+    {
+        return $this->hasMany(CrmContact::class, 'customer_id');
+    }
+
+    public function notes(): HasMany
+    {
+        return $this->hasMany(CrmNote::class, 'customer_id');
+    }
+
+    public function activities(): HasMany
+    {
+        return $this->hasMany(CrmActivity::class, 'customer_id');
+    }
+
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(CrmTag::class, 'crm_customer_tag', 'customer_id', 'tag_id');
+    }
 }

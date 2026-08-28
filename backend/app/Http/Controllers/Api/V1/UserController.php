@@ -33,6 +33,7 @@ final class UserController extends Controller
         $roleIds = Role::query()->whereIn('id', $request->input('role_ids', []))->pluck('id');
         $user->roles()->sync($roleIds);
         $audit->record('user.created', $request, User::class, $user->id);
+
         return new UserResource($user->load('roles'));
     }
 
@@ -47,13 +48,16 @@ final class UserController extends Controller
         $model = $this->findUser($user);
         $this->assertUniqueEmail($request->string('email')->toString(), $model->id);
         $data = Arr::except($request->validated(), ['role_ids']);
-        if (empty($data['password'])) unset($data['password']);
+        if (empty($data['password'])) {
+            unset($data['password']);
+        }
         $data['email'] = mb_strtolower($data['email']);
         $model->update($data);
         if ($request->has('role_ids')) {
             $model->roles()->sync(Role::query()->whereIn('id', $request->input('role_ids', []))->pluck('id'));
         }
         $audit->record('user.updated', $request, User::class, $model->id);
+
         return new UserResource($model->load('roles'));
     }
 
@@ -64,6 +68,7 @@ final class UserController extends Controller
         abort_if($request->user()->is($model), 422, 'You cannot delete your own account.');
         $audit->record('user.deleted', $request, User::class, $model->id);
         $model->delete();
+
         return response()->noContent();
     }
 
@@ -75,7 +80,11 @@ final class UserController extends Controller
     private function assertUniqueEmail(string $email, ?int $ignoreId = null): void
     {
         $query = User::query()->whereRaw('LOWER(email) = ?', [mb_strtolower($email)]);
-        if ($ignoreId !== null) $query->whereKeyNot($ignoreId);
-        if ($query->exists()) throw ValidationException::withMessages(['email' => ['This email is already used in this workspace.']]);
+        if ($ignoreId !== null) {
+            $query->whereKeyNot($ignoreId);
+        }
+        if ($query->exists()) {
+            throw ValidationException::withMessages(['email' => ['This email is already used in this workspace.']]);
+        }
     }
 }

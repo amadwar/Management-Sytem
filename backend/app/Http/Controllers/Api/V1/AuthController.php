@@ -31,7 +31,7 @@ final class AuthController extends Controller
             ->whereRaw('LOWER(email) = ?', [mb_strtolower($request->string('email')->toString())])
             ->first();
 
-        if ($user === null || $user->status !== UserStatus::Active || !Hash::check($request->string('password')->toString(), $user->password)) {
+        if ($user === null || $user->status !== UserStatus::Active || ! Hash::check($request->string('password')->toString(), $user->password)) {
             throw ValidationException::withMessages(['email' => ['Invalid workspace or credentials.']]);
         }
 
@@ -41,6 +41,15 @@ final class AuthController extends Controller
         return response()->json(['data' => ['token' => $token, 'user' => UserResource::make($user->load('roles'))]]);
     }
 
-    public function me(Request $request): UserResource { return new UserResource($request->user()->load('roles')); }
-    public function logout(Request $request): JsonResponse { $request->user()->currentAccessToken()?->delete(); return response()->json(['data'=>['logged_out'=>true]]); }
+    public function me(Request $request): UserResource
+    {
+        return new UserResource($request->user()->load('roles'));
+    }
+
+    public function logout(Request $request): JsonResponse
+    {
+        $request->user()->currentAccessToken()?->delete();
+
+        return response()->json(['data' => ['logged_out' => true]]);
+    }
 }

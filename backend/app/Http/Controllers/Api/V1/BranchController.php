@@ -25,6 +25,7 @@ final class BranchController extends Controller
         abort_unless($request->user()->hasPermission('branches.create'), 403);
         $branch = Branch::query()->create(['public_id' => (string) Str::uuid(), ...$request->validated()]);
         $audit->record('branch.created', $request, Branch::class, $branch->id);
+
         return new BranchResource($branch);
     }
 
@@ -39,6 +40,7 @@ final class BranchController extends Controller
         $model = $this->findBranch($branch);
         $model->update($request->validated());
         $audit->record('branch.updated', $request, Branch::class, $model->id);
+
         return new BranchResource($model);
     }
 
@@ -48,6 +50,7 @@ final class BranchController extends Controller
         $model = $this->findBranch($branch);
         $audit->record('branch.deleted', $request, Branch::class, $model->id);
         $model->delete();
+
         return response()->noContent();
     }
 

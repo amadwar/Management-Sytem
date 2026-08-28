@@ -11,7 +11,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 final class TenantModule extends Model
 {
     use BelongsToTenant;
-    protected $fillable = ['tenant_id','module_id','enabled','configuration'];
-    protected function casts(): array { return ['enabled'=>'boolean','configuration'=>'array']; }
-    public function module(): BelongsTo { return $this->belongsTo(Module::class); }
+
+    protected $fillable = ['tenant_id', 'module_id', 'enabled', 'configuration'];
+
+    protected function casts(): array
+    {
+        return ['enabled' => 'boolean', 'configuration' => 'array'];
+    }
+
+    public function module(): BelongsTo
+    {
+        return $this->belongsTo(Module::class);
+    }
 }

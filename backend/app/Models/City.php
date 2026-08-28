@@ -8,5 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 
 final class City extends Model
 {
-    protected $fillable = ['country_id','name_en','name_ar','is_active']; protected function casts(): array { return ['is_active'=>'boolean']; }
+    protected $fillable = ['country_id', 'name_en', 'name_ar', 'is_active'];
+
+    protected function casts(): array
+    {
+        return ['is_active' => 'boolean'];
+    }
 }

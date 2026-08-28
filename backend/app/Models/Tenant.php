@@ -21,11 +21,33 @@ final class Tenant extends Model
         return ['status' => TenantStatus::class];
     }
 
-    public function getRouteKeyName(): string { return 'public_id'; }
+    public function getRouteKeyName(): string
+    {
+        return 'public_id';
+    }
 
-    public function organization(): HasOne { return $this->hasOne(Organization::class); }
-    public function users(): HasMany { return $this->hasMany(User::class); }
-    public function branches(): HasMany { return $this->hasMany(Branch::class); }
-    public function roles(): HasMany { return $this->hasMany(Role::class); }
-    public function moduleActivations(): HasMany { return $this->hasMany(TenantModule::class); }
+    public function organization(): HasOne
+    {
+        return $this->hasOne(Organization::class);
+    }
+
+    public function users(): HasMany
+    {
+        return $this->hasMany(User::class);
+    }
+
+    public function branches(): HasMany
+    {
+        return $this->hasMany(Branch::class);
+    }
+
+    public function roles(): HasMany
+    {
+        return $this->hasMany(Role::class);
+    }
+
+    public function moduleActivations(): HasMany
+    {
+        return $this->hasMany(TenantModule::class);
+    }
 }

@@ -20,8 +20,8 @@ it('authenticates a platform administrator', function () {
         'email' => $admin->email,
         'password' => 'Password123!',
     ])->assertOk()
-      ->assertJsonPath('data.user.email', $admin->email)
-      ->assertJsonStructure(['data' => ['token', 'user']]);
+        ->assertJsonPath('data.user.email', $admin->email)
+        ->assertJsonStructure(['data' => ['token', 'user']]);
 });
 
 it('does not allow a tenant user to use platform APIs', function () {

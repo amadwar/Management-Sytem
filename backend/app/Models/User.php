@@ -15,10 +15,11 @@ use Laravel\Sanctum\HasApiTokens;
 
 final class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, BelongsToTenant;
+    use BelongsToTenant, HasApiTokens, HasFactory, Notifiable;
 
-    protected $fillable = ['tenant_id','public_id','name','email','phone','password','status','is_platform_admin','last_login_at'];
-    protected $hidden = ['password','remember_token'];
+    protected $fillable = ['tenant_id', 'public_id', 'name', 'email', 'phone', 'password', 'status', 'is_platform_admin', 'last_login_at'];
+
+    protected $hidden = ['password', 'remember_token'];
 
     protected function casts(): array
     {
@@ -31,8 +32,15 @@ final class User extends Authenticatable
         ];
     }
 
-    public function tenant(): BelongsTo { return $this->belongsTo(Tenant::class); }
-    public function roles(): BelongsToMany { return $this->belongsToMany(Role::class)->withTimestamps(); }
+    public function tenant(): BelongsTo
+    {
+        return $this->belongsTo(Tenant::class);
+    }
+
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class)->withTimestamps();
+    }
 
     public function isPlatformAdmin(): bool
     {

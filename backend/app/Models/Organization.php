@@ -11,11 +11,22 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 final class Organization extends Model
 {
-    use HasFactory, BelongsToTenant;
+    use BelongsToTenant, HasFactory;
 
-    protected $fillable = ['tenant_id','public_id','legal_name','display_name','email','phone','country_id','currency_id','tax_number','address'];
+    protected $fillable = ['tenant_id', 'public_id', 'legal_name', 'display_name', 'email', 'phone', 'country_id', 'currency_id', 'tax_number', 'address'];
 
-    public function tenant(): BelongsTo { return $this->belongsTo(Tenant::class); }
-    public function country(): BelongsTo { return $this->belongsTo(Country::class); }
-    public function currency(): BelongsTo { return $this->belongsTo(Currency::class); }
+    public function tenant(): BelongsTo
+    {
+        return $this->belongsTo(Tenant::class);
+    }
+
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+    public function currency(): BelongsTo
+    {
+        return $this->belongsTo(Currency::class);
+    }
 }

@@ -13,6 +13,7 @@ final class EnsurePlatformAdmin
     public function handle(Request $request, Closure $next): Response
     {
         abort_unless($request->user()?->isPlatformAdmin(), 403);
+
         return $next($request);
     }
 }

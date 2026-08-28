@@ -11,6 +11,10 @@ use Illuminate\Support\Str;
 
 final class UserFactory extends Factory
 {
-    protected $model=User::class;
-    public function definition():array{return ['tenant_id'=>null,'public_id'=>(string)Str::uuid(),'name'=>$this->faker->name(),'email'=>$this->faker->unique()->safeEmail(),'password'=>'password12345','status'=>UserStatus::Active,'is_platform_admin'=>false];}
+    protected $model = User::class;
+
+    public function definition(): array
+    {
+        return ['tenant_id' => null, 'public_id' => (string) Str::uuid(), 'name' => $this->faker->name(), 'email' => $this->faker->unique()->safeEmail(), 'password' => 'password12345', 'status' => UserStatus::Active, 'is_platform_admin' => false];
+    }
 }

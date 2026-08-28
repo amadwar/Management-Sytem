@@ -11,6 +11,6 @@ final class BranchResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        return ['id'=>$this->public_id,'name'=>$this->name,'code'=>$this->code,'address'=>$this->address,'phone'=>$this->phone,'latitude'=>$this->latitude,'longitude'=>$this->longitude,'is_active'=>$this->is_active];
+        return ['id' => $this->public_id, 'name' => $this->name, 'code' => $this->code, 'address' => $this->address, 'phone' => $this->phone, 'latitude' => $this->latitude, 'longitude' => $this->longitude, 'is_active' => $this->is_active];
     }
 }
