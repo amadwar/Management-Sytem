@@ -19,6 +19,13 @@ final class AuthorizationSeeder extends Seeder
             'roles' => ['roles.view', 'roles.create', 'roles.update', 'roles.delete'],
             'modules' => ['modules.view', 'modules.manage'],
             'audit' => ['audit.view'],
+
+            'catalog' => [
+                'catalog.view',
+                'catalog.create',
+                'catalog.update',
+                'catalog.delete',
+            ],
             'crm' => [
                 'crm.customers.view', 'crm.customers.create', 'crm.customers.update', 'crm.customers.delete',
                 'crm.tags.manage', 'crm.notes.create', 'crm.activities.create',

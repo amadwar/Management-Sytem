@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Api\V1\AuditController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\BranchController;
+use App\Http\Controllers\Api\V1\CatalogItemController;
 use App\Http\Controllers\Api\V1\Crm\ActivityController as CrmActivityController;
 use App\Http\Controllers\Api\V1\Crm\ContactController as CrmContactController;
 use App\Http\Controllers\Api\V1\Crm\CustomerController as CrmCustomerController;
@@ -185,6 +186,17 @@ Route::prefix('v1')->group(function (): void {
             'modules/{module}/activation',
             [ModuleController::class, 'updateActivation']
         )->middleware('permission:modules.manage');
+
+        /*
+|--------------------------------------------------------------------------
+| Products & Services Catalog
+|--------------------------------------------------------------------------
+*/
+
+        Route::apiResource(
+            'catalog-items',
+            CatalogItemController::class
+        )->middleware('permission:catalog.view');
 
         /*
         |--------------------------------------------------------------------------
