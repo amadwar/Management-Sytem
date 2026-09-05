@@ -1,1 +1,125 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';import { RouterLink, RouterOutlet } from '@angular/router';import { AuthService } from '../core/auth/auth.service';import { LocaleService } from '../core/i18n/locale.service';@Component({selector:'app-shell',imports:[RouterLink,RouterOutlet],template:`<div class="app-shell"><aside class="sidebar"><div class="brand">MDR Business</div><nav><a routerLink="/dashboard">Dashboard</a><a routerLink="/organization">Organization</a><a routerLink="/branches">Branches</a><a routerLink="/users">Users</a><a routerLink="/roles">Roles</a><a routerLink="/modules">Modules</a><a routerLink="/settings">Settings</a><a routerLink="/audit">Audit Log</a><div class="nav-section">CRM</div><a routerLink="/crm/customers">Customers</a><a routerLink="/crm/leads">Leads</a></nav><div class="sidebar-actions"><button (click)="locale.set(locale.locale()==='ar'?'en':'ar')">AR / EN</button><button (click)="auth.logout().subscribe()">Logout</button></div></aside><main><header class="topbar"><strong>{{auth.user()?.name || 'Account'}}</strong></header><section class="content"><router-outlet /></section></main></div>`,changeDetection:ChangeDetectionStrategy.OnPush})export class ShellComponent implements OnInit{constructor(public auth:AuthService,public locale:LocaleService){}ngOnInit(){this.locale.init();this.auth.loadMe().subscribe();}}
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+} from '@angular/core';
+import {
+  RouterLink,
+  RouterOutlet,
+} from '@angular/router';
+import { AuthService } from '../core/auth/auth.service';
+import { LocaleService } from '../core/i18n/locale.service';
+
+@Component({
+  selector: 'app-shell',
+  imports: [
+    RouterLink,
+    RouterOutlet,
+  ],
+  template: `
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          MDR Business
+        </div>
+
+        <nav>
+          <a routerLink="/dashboard">
+            Dashboard
+          </a>
+
+          <a routerLink="/organization">
+            Organization
+          </a>
+
+          <a routerLink="/branches">
+            Branches
+          </a>
+
+          <a routerLink="/users">
+            Users
+          </a>
+
+          <a routerLink="/roles">
+            Roles
+          </a>
+
+          <a routerLink="/modules">
+            Modules
+          </a>
+
+          <a routerLink="/settings">
+            Settings
+          </a>
+
+          <a routerLink="/audit">
+            Audit Log
+          </a>
+
+          <div class="nav-section">
+            Catalog
+          </div>
+
+          <a routerLink="/catalog">
+            Products & Services
+          </a>
+
+          <div class="nav-section">
+            CRM
+          </div>
+
+          <a routerLink="/crm/customers">
+            Customers
+          </a>
+
+          <a routerLink="/crm/leads">
+            Leads
+          </a>
+        </nav>
+
+        <div class="sidebar-actions">
+          <button
+            (click)="locale.set(
+              locale.locale() === 'ar'
+                ? 'en'
+                : 'ar'
+            )"
+          >
+            AR / EN
+          </button>
+
+          <button
+            (click)="auth.logout().subscribe()"
+          >
+            Logout
+          </button>
+        </div>
+      </aside>
+
+      <main>
+        <header class="topbar">
+          <strong>
+            {{ auth.user()?.name || 'Account' }}
+          </strong>
+        </header>
+
+        <section class="content">
+          <router-outlet />
+        </section>
+      </main>
+    </div>
+  `,
+  changeDetection:
+    ChangeDetectionStrategy.OnPush,
+})
+export class ShellComponent implements OnInit {
+  constructor(
+    public auth: AuthService,
+    public locale: LocaleService,
+  ) {}
+
+  ngOnInit(): void {
+    this.locale.init();
+    this.auth.loadMe().subscribe();
+  }
+}
